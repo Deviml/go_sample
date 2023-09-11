@@ -1,0 +1,11 @@
+.idea/
+vendor/
+.DS_Store
+.aws-sam
+main
+env.json
+.vscode
+.vscode/targets.log
+```
+node_modules
+```

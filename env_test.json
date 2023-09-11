@@ -1,0 +1,14 @@
+{
+  "AWS_BUCKET": "",
+  "DB_HOST": "",
+  "DB_NAME": "",
+  "DB_PASSWORD": "",
+  "DB_PORT": "",
+  "DB_USER": "",
+  "FRONT_URL": "",
+  "HASH_COST": 0,
+  "JWT_EXPIRATION": 10,
+  "JWT_KEY": "secret",
+  "JWT_REFRESH": 10,
+  "STRIPE_KEY": ""
+}

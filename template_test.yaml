@@ -1,0 +1,739 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: ABC API.
+
+Globals:
+  Function:
+    Runtime: go1.x
+    Handler: main
+    Environment:
+      Variables:
+        DB_USER: abc
+        DB_PASSWORD: abc
+        DB_HOST: abc
+        DB_PORT: 3306
+        DB_NAME: abc
+        AWS_BUCKET: abc
+        JWT_KEY: secret
+        JWT_EXPIRATION: 1000000000000
+        JWT_REFRESH: 1000000000000
+        HASH_COST: 10
+        FRONT_URL: https://abc.com
+        STRIPE_KEY: abc
+       
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+  SupplyCategories:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /supply-categories
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Sublists:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /sublists
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  EquipmentCategories:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /equipment-categories
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Quotes:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  SingleQuote:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quote/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  EquipmentSubcategories:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /equipment-subcategories
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Media:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /media/about-us
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Login:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /auth
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateVendorRental:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/vendor-rental
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateSubcontractor:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/subcontractor
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateGeneralContractor:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 20
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/general-contractor
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  VerifyEmail:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/verify-email
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  ResendCode:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/resend-code
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  VerifySMS:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/verify-sms
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsSupplyRequests:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/supply-requests
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  ListCompanies:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /companies
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsEquipmentRequests:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/equipment-requests
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsSublists:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/sublists
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsSublistsDetail:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/sublists/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsEquipmentRequestsDetail:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/equipment-requests/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountsSupplyRequestsDetail:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/supply-requests/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  UpdateAccountSettings:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/me
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  GetAccountSettings:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/me
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  CloseAccount:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/close-account
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  UpdateAccount:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/update-account
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  GetCities:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /cities
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountQuotes:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/subcontractor/quotes
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Equipments:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /equipments
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Supplies:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /supplies
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountSublist:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/general-contractor/sublists
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  AccountSublistDetail:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/general-contractor/sublists/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  Checkout:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /checkout
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  Coupon:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /validate-coupon
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  UpdateCoupon:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /update-coupon
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  ConfirmPaymentIntentAndCheckout:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /confirmPaymentIntentAndCheckout
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateSublist:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /sublists
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  UpdateSublist:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /sublists/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  DeleteSublist:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /sublists/{id}
+            Method: delete
+            RestApiId:
+              Ref: ApiGatewayApi
+  States:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /states
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateQuoteEquipement:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/equipment-request
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateQuoteSupply:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/supply-requests
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  ShowQuoteSupply:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/supply-requests/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  EditQuoteSupply:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/supply-requests/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  DeleteQuoteSupply:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/supply-requests/{id}
+            Method: delete
+            RestApiId:
+              Ref: ApiGatewayApi
+  ShowQuoteEquipment:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/equipment-requests/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  EditQuoteEquipment:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/equipment-requests/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  DeleteQuoteEquipment:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quotes/equipment-requests/{id}
+            Method: delete
+            RestApiId:
+              Ref: ApiGatewayApi
+  Counties:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /counties
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  RequestInvitation:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/general-contractor/request-invitation
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  ForgotPassword:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /accounts/forgot-password
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  BuyerProposals:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/buyers
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  CreateProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/store
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
+  ShowProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/show/{id}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  EditProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/update/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  DeleteProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/delete/{id}
+            Method: delete
+            RestApiId:
+              Ref: ApiGatewayApi
+  AcceptProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/accept/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  RejectProposal:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/reject/{id}
+            Method: patch
+            RestApiId:
+              Ref: ApiGatewayApi
+  SellerProposals:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/sellers
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  TypeProposalList:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /proposals/list/{type}
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+  PaymentIntent:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /paymentIntent
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayApi
